@@ -1,0 +1,70 @@
+---
+title: "API Practice"
+author: "Nicole Pepper"
+format: html
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+
+#load dataRetrieval library
+library(dataRetrieval)
+library(tidyverse)
+
+```
+
+```{r}
+# set parameters to the query
+#  Ventura River (site 11118500)
+siteNumber <- "11118500"
+parameterCd <- "00060" #dishcharge
+startDate <- "2023-08-19"
+endDate <- "2023-08-22"
+
+```
+
+```{r}
+# Query the APIs
+discharge <- readNWISdv(siteNumber, parameterCd, startDate, endDate)
+
+```
+
+
+```{r}
+# plot
+ggplot(data = discharge, aes(x=Date, y=X_00060_00003)) + 
+  geom_line() +
+  labs(title = "USGS Stream Gage Dishcarge at Ventura River (Ventura, CA)", y = "Discharge")
+
+max(discharge$X_00060_00003)
+
+```
+
+
+
+```{r}
+siteNumber <- "11118500"
+parameterCd <- c("00010", "00060") # Temperature and discharge
+statCd <- c("00001", "00003") # Mean and maximum
+startDate <- "2023-08-19"
+endDate <- "2023-08-22"
+
+temperatureAndFlow <- readNWISdv(siteNumber, parameterCd,
+  startDate, endDate,
+  statCd = statCd
+)
+```
+
+```{r}
+# plot
+ggplot(data = discharge, aes(x=Date, y=X_00060_00003)) + 
+  geom_line() +
+  labs(title = "USGS Stream Gage Dishcarge at Ventura River (Ventura, CA)", y = "Discharge")
+
+max(discharge$X_00060_00003)
+
+```
+
